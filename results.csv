@@ -1,0 +1,31 @@
+id,hypothesis_category,text,expected_label,rationale,predicted_label,predicted_probability,correct
+1,negation,The app is not useful anymore after the last update.,negative,"This uses negation before a positive cue, useful, to test whether the model reads not useful as negative.",negative,0.757446825504303,True
+2,negation,I do not recommend this app even though the design looks clean.,negative,This tests whether the model catches do not recommend instead of focusing on the positive design cue.,neutral,0.6854159235954285,False
+3,negation,The update did not improve performance at all.,negative,This negates the positive word improve to test whether the model relies only on the cue word.,negative,0.7746574282646179,True
+4,negation,"The app is not bad, but it is still missing basic features.",neutral,"This has a negated negative phrase with a mixed follow-up, so the intended label is not strongly positive or negative.",neutral,0.7881346940994263,True
+5,negation,I cannot say this app is amazing because it crashes too often.,negative,This tests whether the model ignores cannot and reacts to amazing.,neutral,0.5389302968978882,False
+6,lexical_trigger,"The interface looks beautiful, but the app deletes my saved work.",negative,"This contains the positive trigger beautiful, but the real experience is negative.",neutral,0.6426569223403931,False
+7,lexical_trigger,Reliable was what this app used to be; now it freezes every day.,negative,This flips the positive cue reliable by putting it in the past and contrasting it with current failure.,neutral,0.4970439076423645,False
+8,lexical_trigger,"Great idea, terrible execution.",negative,This starts with a positive trigger but ends with a stronger negative judgment.,negative,0.9489947557449341,True
+9,lexical_trigger,"I love the colors, but I cannot complete a single payment.",negative,This tests whether the model overweights love and ignores the serious functional failure.,neutral,0.570764422416687,False
+10,lexical_trigger,"The app is fast and polished, but I do not need it.",neutral,"This includes positive surface words, but the overall review is more neutral than positive.",neutral,0.8203858733177185,True
+11,domain_shift,The company reported higher revenue after cutting operating costs.,neutral,"This is business news prose, not a user opinion, so sentiment should be neutral.",negative,0.5296492576599121,False
+12,domain_shift,The football team lost the final after a penalty shootout.,neutral,This sports sentence contains negative event language but is factual reporting.,negative,0.8319024443626404,False
+13,domain_shift,Bake the cake for thirty minutes and let it cool before serving.,neutral,This recipe instruction has no app-review sentiment.,neutral,0.7392721176147461,True
+14,domain_shift,The senator criticized the new policy during a press conference.,neutral,"This news-style sentence uses criticized, but it reports an event rather than a user sentiment.",negative,0.7582048177719116,False
+15,domain_shift,The movie opened at number one during the holiday weekend.,neutral,This entertainment news sentence sounds positive but is mainly factual.,neutral,0.4403481185436249,True
+16,length_extreme,Works fine.,positive,This very short review tests whether the model can classify minimal positive feedback.,positive,0.865755558013916,True
+17,length_extreme,Still broken.,negative,This very short review tests whether the model catches a minimal negative complaint.,neutral,0.46321403980255127,False
+18,length_extreme,"Okay, nothing special.",neutral,This short sentence is mild and should be neutral.,neutral,0.8206443786621094,True
+19,length_extreme,"After using this app for three weeks, I like the clean layout, the quick search, and the simple setup, but I still find the notifications confusing, the settings menu hard to navigate, and the sync feature unreliable when switching between my laptop and phone.",neutral,This long mixed review tests whether the model can balance positive and negative evidence.,neutral,0.6940240263938904,True
+20,length_extreme,"I downloaded the app because a friend recommended it, and at first the onboarding felt smooth, but after several days the login screen started looping, customer support sent generic replies, and the features I needed were locked behind a confusing upgrade page.",negative,This long review contains mixed context but ends with several concrete negative failures.,neutral,0.6053653359413147,False
+21,sarcasm,"Fantastic, another update that makes the app crash faster.",negative,This uses positive surface wording sarcastically to express a negative experience.,positive,0.8582237958908081,False
+22,sarcasm,Amazing job hiding the only button I use every day.,negative,This sarcastically praises a design change that actually made the app worse.,positive,0.9135830998420715,False
+23,sarcasm,Love paying for premium and still seeing ads.,negative,This uses love sarcastically with a complaint about ads.,negative,0.9222559928894043,True
+24,sarcasm,"Perfect, the app logged me out right before my meeting.",negative,"This uses a positive word, perfect, to express frustration.",positive,0.8936132192611694,False
+25,sarcasm,"Great, now the app needs permission for everything just to open.",negative,This tests whether the model reads great literally instead of detecting sarcastic complaint.,positive,0.8026673793792725,False
+26,other,"The app is useful for beginners, but advanced users may outgrow it quickly.",neutral,This mixed-audience case tests whether the model can handle conditional sentiment rather than one clear opinion.,neutral,0.6640344858169556,True
+27,other,I would rate it five stars if the export button worked.,negative,This counterfactual sentence contains a positive rating cue but the actual condition is unmet.,neutral,0.5877034068107605,False
+28,other,This is not a bad app for a free tool.,positive,This tests a softened positive judgment using negated negative wording.,neutral,0.5092910528182983,False
+29,other,The app does exactly what it promises and nothing more.,neutral,This checks whether plain adequacy is treated as neutral rather than positive.,neutral,0.7106256484985352,True
+30,other,"I wanted to hate it, but it actually saved me a lot of time.",positive,"This starts negative but flips to positive, testing contrast handling.",negative,0.8377141952514648,False
