@@ -392,7 +392,7 @@ Per class:
 
 Rows are true labels and columns are predicted labels.
 
-{cm_df.to_markdown()}
+{cm_df.to_string()}
 
 ## Three qualitative error examples
 
