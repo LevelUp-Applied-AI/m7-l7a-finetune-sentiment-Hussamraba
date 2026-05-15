@@ -309,102 +309,102 @@ def write_confusion_matrix_csv(trainer: Trainer, tokenized_test) -> pd.DataFrame
 
 
 def write_evaluation_report(
-        ds: DatasetDict,
-        metrics: dict,
-        cm_df: pd.DataFrame,
-        predictions_df: pd.DataFrame,
-        training_time_minutes: float,
-    ) -> None:
-        """
-        Create evaluation-report.md.
-        """
-        train_size = len(ds["train"])
-        test_size = len(ds["test"])
-        total_size = train_size + test_size
-
-        all_labels = [ID2LABEL[int(i)] for i in ds["train"]["label"]] + [
-            ID2LABEL[int(i)] for i in ds["test"]["label"]
-        ]
-
-        label_distribution = pd.Series(all_labels).value_counts().to_dict()
-
-        errors = predictions_df[
-            predictions_df["label"] != predictions_df["predicted_label"]
-        ].head(3)
-
-        if len(errors) == 0:
-            error_text = "- No misclassified examples were found in the test split.\n"
-        else:
-            error_lines = []
-
-            for _, row in errors.iterrows():
-                gold_label = row["label"]
-                gold_prob = row.get(f"prob_{gold_label}", 0.0)
-
-                error_lines.append(
-                    f"""- Original sentence: {row["text"]}
-    - Gold label: {gold_label}
-    - Predicted label: {row["predicted_label"]}
-    - Predicted probability for the gold label: {gold_prob:.4f}
-    - Why this may be wrong: This sentence may contain wording that overlaps with another sentiment class. The model likely focused on a misleading cue instead of the full meaning.
+    ds: DatasetDict,
+    metrics: dict,
+    cm_df: pd.DataFrame,
+    predictions_df: pd.DataFrame,
+    training_time_minutes: float,
+) -> None:
     """
-                )
-
-            error_text = "\n".join(error_lines)
-
-        report = f"""# Module 7 Week A — Lab Evaluation Report
-
-    ## Dataset
-
-    This lab uses the AARSynth app reviews sentiment dataset for three-class sentiment classification: negative, neutral, and positive. The dataset has {total_size} examples total, with {train_size} examples in the training split and {test_size} examples in the test split.
-
-    Label distribution: {label_distribution}
-
-    ## Model and hyperparameters
-
-    - Backbone: distilbert-base-uncased
-    - Number of labels: 3
-    - Learning rate: 5e-5
-    - Epochs: 2
-    - Batch size: 8
-    - Max length: 128
-    - Seed: 42
-    - Training time: {training_time_minutes:.2f} minutes on my machine
-
-    ## Metrics on the test split
-
-    Aggregate:
-
-    | Metric | Value |
-    |---|---:|
-    | Accuracy | {metrics["accuracy"]:.4f} |
-    | Macro-F1 | {metrics["macro_f1"]:.4f} |
-
-    Per class:
-
-    | Class | F1 | Precision | Recall |
-    |---|---:|---:|---:|
-    | Negative | {metrics["per_class_f1"].get("negative", 0):.4f} | {metrics["per_class_precision"].get("negative", 0):.4f} | {metrics["per_class_recall"].get("negative", 0):.4f} |
-    | Neutral | {metrics["per_class_f1"].get("neutral", 0):.4f} | {metrics["per_class_precision"].get("neutral", 0):.4f} | {metrics["per_class_recall"].get("neutral", 0):.4f} |
-    | Positive | {metrics["per_class_f1"].get("positive", 0):.4f} | {metrics["per_class_precision"].get("positive", 0):.4f} | {metrics["per_class_recall"].get("positive", 0):.4f} |
-
-    ## Confusion matrix
-
-    Rows are true labels and columns are predicted labels.
-
-    {cm_df.to_string()}
-
-    ## Three qualitative error examples
-
-    {error_text}
-
-    ## Hugging Face Hub model URL
-
-    https://huggingface.co/<your-username>/m7-app-review-sentiment
+    Create evaluation-report.md.
     """
+    train_size = len(ds["train"])
+    test_size = len(ds["test"])
+    total_size = train_size + test_size
 
-        with open("evaluation-report.md", "w", encoding="utf-8") as f:
-            f.write(report)
+    all_labels = [ID2LABEL[int(i)] for i in ds["train"]["label"]] + [
+        ID2LABEL[int(i)] for i in ds["test"]["label"]
+    ]
+
+    label_distribution = pd.Series(all_labels).value_counts().to_dict()
+
+    errors = predictions_df[
+        predictions_df["label"] != predictions_df["predicted_label"]
+    ].head(3)
+
+    if len(errors) == 0:
+        error_text = "- No misclassified examples were found in the test split.\n"
+    else:
+        error_lines = []
+
+        for _, row in errors.iterrows():
+            gold_label = row["label"]
+            gold_prob = row.get(f"prob_{gold_label}", 0.0)
+
+            error_lines.append(
+                f"""- Original sentence: {row["text"]}
+  - Gold label: {gold_label}
+  - Predicted label: {row["predicted_label"]}
+  - Predicted probability for the gold label: {gold_prob:.4f}
+  - Why this may be wrong: This sentence may contain wording that overlaps with another sentiment class. The model likely focused on a misleading cue instead of the full meaning.
+"""
+            )
+
+        error_text = "\n".join(error_lines)
+
+    report = f"""# Module 7 Week A — Lab Evaluation Report
+
+## Dataset
+
+This lab uses the AARSynth app reviews sentiment dataset for three-class sentiment classification: negative, neutral, and positive. The dataset has {total_size} examples total, with {train_size} examples in the training split and {test_size} examples in the test split.
+
+Label distribution: {label_distribution}
+
+## Model and hyperparameters
+
+- Backbone: distilbert-base-uncased
+- Number of labels: 3
+- Learning rate: 5e-5
+- Epochs: 2
+- Batch size: 8
+- Max length: 128
+- Seed: 42
+- Training time: {training_time_minutes:.2f} minutes on my machine
+
+## Metrics on the test split
+
+Aggregate:
+
+| Metric | Value |
+|---|---:|
+| Accuracy | {metrics["accuracy"]:.4f} |
+| Macro-F1 | {metrics["macro_f1"]:.4f} |
+
+Per class:
+
+| Class | F1 | Precision | Recall |
+|---|---:|---:|---:|
+| Negative | {metrics["per_class_f1"].get("negative", 0):.4f} | {metrics["per_class_precision"].get("negative", 0):.4f} | {metrics["per_class_recall"].get("negative", 0):.4f} |
+| Neutral | {metrics["per_class_f1"].get("neutral", 0):.4f} | {metrics["per_class_precision"].get("neutral", 0):.4f} | {metrics["per_class_recall"].get("neutral", 0):.4f} |
+| Positive | {metrics["per_class_f1"].get("positive", 0):.4f} | {metrics["per_class_precision"].get("positive", 0):.4f} | {metrics["per_class_recall"].get("positive", 0):.4f} |
+
+## Confusion matrix
+
+Rows are true labels and columns are predicted labels.
+
+{cm_df.to_markdown()}
+
+## Three qualitative error examples
+
+{error_text}
+
+## Hugging Face Hub model URL
+
+https://huggingface.co/<your-username>/m7-app-review-sentiment
+"""
+
+    with open("evaluation-report.md", "w", encoding="utf-8") as f:
+        f.write(report)
 
 
 def main() -> None:
