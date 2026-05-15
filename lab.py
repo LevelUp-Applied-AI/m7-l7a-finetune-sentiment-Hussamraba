@@ -400,7 +400,7 @@ Rows are true labels and columns are predicted labels.
 
 ## Hugging Face Hub model URL
 
-https://huggingface.co/<your-username>/m7-app-review-sentiment
+https://huggingface.co/hurab3a/m7-app-review-sentiment
 """
 
     with open("evaluation-report.md", "w", encoding="utf-8") as f:
@@ -488,7 +488,7 @@ def main() -> None:
         try:
             trainer.push_to_hub(repo_id)
             tokenizer.push_to_hub(repo_id)
-            print(f"\nPushed to https://huggingface.co/<your-username>/{repo_id}")
+            print(f"\nPushed to https://huggingface.co/hurab3a/{repo_id}")
         except Exception as e:
             print(f"\nHF Hub push failed: {e}")
             print("Run `huggingface-cli login` with a write token and try again.")
